@@ -5,14 +5,14 @@ const path = require('path');
 const fs = require('fs');
 const readline = require('readline');
 
-const YELLOW = '\x1b[33m';
+const ORANGE = '\x1b[38;5;208m';
 const BOLD = '\x1b[1m';
 const RESET = '\x1b[0m';
 
 const banner = `
 
-${YELLOW}${BOLD} █░█ ░█░ █▄▄ █▀▀   ▄▀█ █▀▀ █▀▀ █▀▀ █▀▄▀█ █▄▄ █░░ █▄█ ${RESET}
-${YELLOW}${BOLD} ▀▄▀ ░█░ █▄█ ██▄   █▀█ ▄█░ ▄█░ ██▄ █░▀░█ █▄█ █▄▄ ░█░ ${RESET}
+${ORANGE}${BOLD} █░█ ░█░ █▄▄ █▀▀   ▄▀█ █▀▀ █▀▀ █▀▀ █▀▄▀█ █▄▄ █░░ █▄█ ${RESET}
+${ORANGE}${BOLD} ▀▄▀ ░█░ █▄█ ██▄   █▀█ ▄█░ ▄█░ ██▄ █░▀░█ █▄█ █▄▄ ░█░ ${RESET}
 `;
 
 const SAFE_NAME = /^[A-Za-z0-9._-]+$/;
