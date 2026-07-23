@@ -10,16 +10,6 @@ const BOLD = '\x1b[1m';
 const RESET = '\x1b[0m';
 
 const banner = `
-${YELLOW}${BOLD}      ╱◆╲        ╱◆╲      ${RESET}
-${YELLOW}${BOLD}     ╱  ◆╲      ╱◆  ╲     ${RESET}
-${YELLOW}${BOLD}    ╱   ◆ ╲    ╱ ◆   ╲    ${RESET}
-${YELLOW}${BOLD}   ╱    ◆  ╲  ╱  ◆    ╲   ${RESET}
-${YELLOW}${BOLD}  ╱     ◆   ╲╱   ◆     ╲  ${RESET}
-${YELLOW}${BOLD}  ╲     ◆   ╱╲   ◆     ╱  ${RESET}
-${YELLOW}${BOLD}   ╲    ◆  ╱  ╲  ◆    ╱   ${RESET}
-${YELLOW}${BOLD}    ╲   ◆ ╱    ╲ ◆   ╱    ${RESET}
-${YELLOW}${BOLD}     ╲  ◆╱      ╲◆  ╱     ${RESET}
-${YELLOW}${BOLD}      ╲◆╱        ╲◆╱      ${RESET}
 
 ${YELLOW}${BOLD} █░█ ░█░ █▄▄ █▀▀   ▄▀█ █▀▀ █▀▀ █▀▀ █▀▄▀█ █▄▄ █░░ █▄█ ${RESET}
 ${YELLOW}${BOLD} ▀▄▀ ░█░ █▄█ ██▄   █▀█ ▄█░ ▄█░ ██▄ █░▀░█ █▄█ █▄▄ ░█░ ${RESET}
