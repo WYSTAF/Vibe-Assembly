@@ -1,0 +1,10 @@
+MIT License — Lineage Notice
+
+This skill (scout) is a first-party component of Vibe Assembly.
+Its workflow structure is adapted from the open-source advisor skill pattern
+originally published under the MIT License by shadcn (https://github.com/shadcn/improve).
+
+The product identity, command map, Vibe workflow integration, and all
+Vibe Assembly–specific content are original to this project.
+
+Vibe Assembly — https://github.com/vibe-assembly/vibe-assembly

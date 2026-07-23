@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "scout": {
+      "source": "vibe-assembly",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/scout/SKILL.md"
+    }
+  }
+}

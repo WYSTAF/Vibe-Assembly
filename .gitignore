@@ -1,0 +1,19 @@
+# System Overheads
+.DS_Store
+node_modules/
+dist/
+build/
+.env*
+*.log
+init_factory.md
+
+# Agent Execution Overhead
+# plans/ is committed advisor output (scout)
+.roo/history/
+
+# Website build artifacts
+app/website/dist/
+app/website/node_modules/
+
+# Graphify reference copy (CLI clones fresh from GitHub)
+app/graphify/

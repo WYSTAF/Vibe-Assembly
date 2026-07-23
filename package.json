@@ -1,0 +1,25 @@
+{
+  "name": "create-vibe-assembly",
+  "version": "1.0.0",
+  "description": "Vibe Assembly: multi-agent Roo Code workspace template for free-tier vibe coding.",
+  "bin": {
+    "create-vibe-assembly": "./bin/cli.js"
+  },
+  "scripts": {
+    "test": "node --test tests/cli-identity.test.js tests/ticket-contract.test.js tests/cli-interactive.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WYSTAF/Vibe-Assembly.git"
+  },
+  "keywords": [
+    "ai",
+    "vibe-coding",
+    "roo-code",
+    "multi-agent",
+    "free-api",
+    "vibe-assembly"
+  ],
+  "author": "Vibe Assembly",
+  "license": "MIT"
+}

@@ -1,0 +1,17 @@
+# Changelog (agent OS)
+- 2026-07-22: Wave 3.8 executed (T-024 remove Supporters section, T-025 remove Tutorial Step 8 + add Cursor/Roo Code/9router recommendation, T-026 standardize API cards with hover/click unified categorization grid, T-027 build verified). Template readiness: LICENSE added, README Graphify section, CLI fallback fix, .gitignore updated.
+- 2026-07-21: Boss blueprinted Full-Site Translation & Cleanup Wave 3.7 (4 tickets: T-020 remove Persian text from SuggestionForm callout, T-021 expand i18n.tsx with comprehensive translation keys and localized data helpers, T-022 update all components for full-site translation, T-023 verify build and type-checks).
+- 2026-07-21: Wave 3.6 executed successfully (FAQ accordion component created, FAQ link added to Sidebar, Language Selector with 11 inline SVG flags including custom Lion & Sun flag for Persian implemented, build verified).
+- 2026-07-21: Boss blueprinted Localization & FAQ Integration Wave 3.6 (3 S-tickets: T-017 create FAQ component, T-018 add FAQ link to Sidebar, T-019 implement Language Selector with custom inline SVG flags including Lion & Sun for Persian).
+- 2026-07-21: Wave 3.5 executed successfully (Sidebar redesigned to wider text-based layout, App.tsx padding adjusted to md:pl-[240px], Hero section simplified to single-column responsive layout removing section.hero-01.png, SuggestionForm reordered below ApiGrid with Persian/English callout text; build passes).
+- 2026-07-21: Boss blueprinted UI Refinement & Layout Realignment Wave 3.5 (4 S-tickets: T-013 redesign Sidebar to match Figma/Sketch layout, T-014 adjust App.tsx padding and sticky header logo size, T-015 clean up Hero Section, T-016 reorder SuggestionForm and add Persian/English callout text).
+- 2026-07-21: Website Wave 3 executed (Logo, bg-hero, sticky top header, Support Creator button, sidebar hover effects; build passes).
+- 2026-07-21: Boss blueprinted UI Modernization & Asset Integration Wave 3 (4 S-tickets: T-009 logo/bgHero imports, T-010 sticky top header bar with Support Creator heart button, T-011 two-column Hero layout with section.hero-01.png, T-012 sidebar hover refinement).
+- 2026-07-20: Website Wave 2 executed (siteData ApiCard type upgrade + tutorialData 8-step rewrite, Tutorial.tsx mode-colored timeline, ApiGrid Support Creator toggle + filter menu, ApiGrid expanded card details with signupMethod/cardRequired/contextWindow/bestModes; build passes).
+- 2026-07-20: Website Wave 1 executed (siteData, Hero interactive input + GitHub Star + Graphify hint, Sidebar Reddit SVG, Modal supporters, App.tsx Supporters section; tailwind.css + tailwind.config.js restored from reference/; build passes).
+- 2026-07-20: Boss blueprinted Website Modernization Wave 2 (4 S-tickets: siteData ApiCard type upgrade + tutorialData 8-step rewrite, Tutorial.tsx mode-colored timeline, ApiGrid Support Creator toggle + filter menu, ApiGrid expanded card details with signupMethod/cardRequired/contextWindow/bestModes).
+- 2026-07-20: Boss blueprinted Website Modernization Wave 1 (4 S-tickets).
+- 2026-07-20: CLI Interactive + Graphify wave executed (18/18 tests pass).
+- 2026-07-20: Relay + Ticket Contract wave executed on disk.
+- 2026-07-19: Scout + Chat + install identity wave executed on disk.
+- 2026-07-07: V1 4-mode factory scaffold frozen.

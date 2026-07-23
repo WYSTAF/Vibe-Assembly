@@ -1,0 +1,51 @@
+#!/usr/bin/env node
+
+const { execSync } = require('child_process');
+const path = require('path');
+
+try {
+   
+    const stagedFiles = execSync('git diff --cached --name-only', { encoding: 'utf8' })
+        .split('\n')
+        .map(f => f.trim())
+        .filter(Boolean);
+
+   
+    const ALLOWED_DIRECTORIES = ['app', '.ai', '.roo', '.agents', 'tasks', 'tests', 'docs', '.githooks', 'bin'];
+    const ALLOWED_ROOT_FILES = ['README.md', 'skills-lock.json', '.roomodes', '.roorules', '.gitignore', 'package.json'];
+
+    let violation = false;
+
+    for (const file of stagedFiles) {
+        const parts = file.split(path.sep);
+        const topDir = parts[0];
+
+        
+        if (parts.length === 1) {
+            if (!ALLOWED_ROOT_FILES.includes(file)) {
+                console.error(`❌ Error: File "${file}" is not allowed in the root directory.`);
+                violation = true;
+            }
+            continue;
+        }
+
+       
+        if (!ALLOWED_DIRECTORIES.includes(topDir)) {
+            console.error(`❌ Error: Directory "${topDir}/" is outside the project architecture blueprints.`);
+            violation = true;
+        }
+    }
+
+    if (violation) {
+        console.error('\n🛑 Commit blocked! The AI or user violated the strict project boundary rules.');
+        console.error('👉 Production code must ONLY live inside the "app/" directory.');
+        process.exit(1);
+    }
+
+    console.log('✅ Architecture check passed! Safe to commit.');
+    process.exit(0);
+
+} catch (error) {
+    console.error('⚠️ Could not run architecture guardrail:', error.message);
+    process.exit(0);
+}
