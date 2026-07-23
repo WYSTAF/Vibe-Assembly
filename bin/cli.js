@@ -5,6 +5,26 @@ const path = require('path');
 const fs = require('fs');
 const readline = require('readline');
 
+const YELLOW = '\x1b[33m';
+const BOLD = '\x1b[1m';
+const RESET = '\x1b[0m';
+
+const banner = `
+${YELLOW}${BOLD}      ╱◆╲        ╱◆╲      ${RESET}
+${YELLOW}${BOLD}     ╱  ◆╲      ╱◆  ╲     ${RESET}
+${YELLOW}${BOLD}    ╱   ◆ ╲    ╱ ◆   ╲    ${RESET}
+${YELLOW}${BOLD}   ╱    ◆  ╲  ╱  ◆    ╲   ${RESET}
+${YELLOW}${BOLD}  ╱     ◆   ╲╱   ◆     ╲  ${RESET}
+${YELLOW}${BOLD}  ╲     ◆   ╱╲   ◆     ╱  ${RESET}
+${YELLOW}${BOLD}   ╲    ◆  ╱  ╲  ◆    ╱   ${RESET}
+${YELLOW}${BOLD}    ╲   ◆ ╱    ╲ ◆   ╱    ${RESET}
+${YELLOW}${BOLD}     ╲  ◆╱      ╲◆  ╱     ${RESET}
+${YELLOW}${BOLD}      ╲◆╱        ╲◆╱      ${RESET}
+
+${YELLOW}${BOLD} █░█ ░█░ █▄▄ █▀▀   ▄▀█ █▀▀ █▀▀ █▀▀ █▀▄▀█ █▄▄ █░░ █▄█ ${RESET}
+${YELLOW}${BOLD} ▀▄▀ ░█░ █▄█ ██▄   █▀█ ▄█░ ▄█░ ██▄ █░▀░█ █▄█ █▄▄ ░█░ ${RESET}
+`;
+
 const SAFE_NAME = /^[A-Za-z0-9._-]+$/;
 
 function isSafeProjectName(name) {
@@ -51,6 +71,8 @@ function initMetadata(projectName, projectPath) {
 
 async function main() {
   const projectName = process.argv[2];
+
+  console.log(banner);
 
   if (!isSafeProjectName(projectName)) {
     console.error('\n❌ Error: Please specify a safe project directory name:');
