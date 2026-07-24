@@ -1,6 +1,6 @@
 {
   "name": "create-vibe-assembly",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Vibe Assembly: multi-agent Roo Code workspace template for free-tier vibe coding.",
   "bin": {
     "create-vibe-assembly": "bin/cli.js"
