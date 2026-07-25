@@ -1,0 +1,37 @@
+{
+  ".githooks/pre-commit": {
+    "mtime": 1783953625.8714652,
+    "ast_hash": "4686112111b32190632d1b7006c2d1b1",
+    "semantic_hash": "4686112111b32190632d1b7006c2d1b1"
+  },
+  "bin/cli.js": {
+    "mtime": 1784779175.83833,
+    "ast_hash": "21a07cf4cca1b987aafa2232fa10d30c",
+    "semantic_hash": "21a07cf4cca1b987aafa2232fa10d30c"
+  },
+  "package.json": {
+    "mtime": 1784939366.0691428,
+    "ast_hash": "a9dc3a32a1ff129fc04388c7455ab3f6",
+    "semantic_hash": "a9dc3a32a1ff129fc04388c7455ab3f6"
+  },
+  "skills-lock.json": {
+    "mtime": 1784468545.7443478,
+    "ast_hash": "1d6f14b3c7243b510c5d0389a27ed132",
+    "semantic_hash": "1d6f14b3c7243b510c5d0389a27ed132"
+  },
+  "tests/cli-identity.test.js": {
+    "mtime": 1784469443.3189392,
+    "ast_hash": "35f947fbf7745f30740d1b5233308735",
+    "semantic_hash": "35f947fbf7745f30740d1b5233308735"
+  },
+  "tests/cli-interactive.test.js": {
+    "mtime": 1784525563.854102,
+    "ast_hash": "e3cce623fce36186738c590d9046f07e",
+    "semantic_hash": "e3cce623fce36186738c590d9046f07e"
+  },
+  "tests/ticket-contract.test.js": {
+    "mtime": 1784522638.7967317,
+    "ast_hash": "d86851ed551e9ff7b4794ba2eae0ef4d",
+    "semantic_hash": "d86851ed551e9ff7b4794ba2eae0ef4d"
+  }
+}

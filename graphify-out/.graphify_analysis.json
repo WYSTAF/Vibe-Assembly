@@ -1,0 +1,146 @@
+{
+  "communities": {
+    "0": [
+      "package",
+      "package_author",
+      "package_bin",
+      "package_bin_create_vibe_assembly",
+      "package_description",
+      "package_license",
+      "package_name",
+      "package_repository",
+      "package_repository_type",
+      "package_repository_url",
+      "package_scripts",
+      "package_scripts_test",
+      "package_version"
+    ],
+    "1": [
+      "bin_cli",
+      "bin_cli_askgraphify",
+      "bin_cli_execfilesync",
+      "bin_cli_fs",
+      "bin_cli_initmetadata",
+      "bin_cli_issafeprojectname",
+      "bin_cli_main",
+      "bin_cli_path",
+      "bin_cli_readline"
+    ],
+    "2": [
+      "tests_cli_identity_test",
+      "tests_cli_identity_test_assert",
+      "tests_cli_identity_test_clisrc",
+      "tests_cli_identity_test_describe_it",
+      "tests_cli_identity_test_fs",
+      "tests_cli_identity_test_issafeprojectname",
+      "tests_cli_identity_test_path",
+      "tests_cli_identity_test_pkg",
+      "tests_cli_identity_test_root"
+    ],
+    "3": [
+      "package_keywords",
+      "ref_ai",
+      "ref_free_api",
+      "ref_multi_agent",
+      "ref_roo_code",
+      "ref_vibe_assembly",
+      "ref_vibe_coding"
+    ],
+    "4": [
+      "tests_cli_interactive_test",
+      "tests_cli_interactive_test_assert",
+      "tests_cli_interactive_test_clisrc",
+      "tests_cli_interactive_test_describe_it",
+      "tests_cli_interactive_test_fs",
+      "tests_cli_interactive_test_path",
+      "tests_cli_interactive_test_root"
+    ],
+    "5": [
+      "tests_ticket_contract_test",
+      "tests_ticket_contract_test_assert",
+      "tests_ticket_contract_test_contract_path",
+      "tests_ticket_contract_test_describe_it",
+      "tests_ticket_contract_test_fs",
+      "tests_ticket_contract_test_path"
+    ],
+    "6": [
+      "githooks_pre_commit",
+      "githooks_pre_commit_execsync",
+      "githooks_pre_commit_path"
+    ]
+  },
+  "cohesion": {
+    "0": 0.15384615384615385,
+    "1": 0.3055555555555556,
+    "2": 0.2222222222222222,
+    "3": 0.2857142857142857,
+    "4": 0.2857142857142857,
+    "5": 0.3333333333333333,
+    "6": 0.6666666666666666
+  },
+  "gods": [
+    {
+      "id": "package_keywords",
+      "label": "keywords",
+      "degree": 7
+    },
+    {
+      "id": "bin_cli_main",
+      "label": "main()",
+      "degree": 4
+    },
+    {
+      "id": "package_repository",
+      "label": "repository",
+      "degree": 3
+    },
+    {
+      "id": "bin_cli_issafeprojectname",
+      "label": "isSafeProjectName()",
+      "degree": 2
+    },
+    {
+      "id": "bin_cli_askgraphify",
+      "label": "askGraphify()",
+      "degree": 2
+    },
+    {
+      "id": "bin_cli_initmetadata",
+      "label": "initMetadata()",
+      "degree": 2
+    },
+    {
+      "id": "package_bin",
+      "label": "bin",
+      "degree": 2
+    },
+    {
+      "id": "package_scripts",
+      "label": "scripts",
+      "degree": 2
+    },
+    {
+      "id": "bin_cli_execfilesync",
+      "label": "{ execFileSync }",
+      "degree": 1
+    },
+    {
+      "id": "bin_cli_path",
+      "label": "path",
+      "degree": 1
+    }
+  ],
+  "surprises": [],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `keywords` connect `keywords` to `package.json`?",
+      "why": "High betweenness centrality (0.067) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `{ execFileSync }`, `path`, `fs` to the rest of the system?",
+      "why": "38 weakly-connected nodes found - possible documentation gaps or missing edges."
+    }
+  ]
+}
