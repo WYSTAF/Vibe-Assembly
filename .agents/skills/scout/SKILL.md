@@ -36,7 +36,7 @@ Map the territory before judging it:
 - Note repo conventions: code style, naming, folder layout, error-handling patterns.
 - **Ingest intent & design docs where present** — ADRs, specs, `CONTEXT.md`, `DESIGN.md`, `PRODUCT.md`.
 - Check git signal where useful (`git log --oneline -30`, churn hotspots).
-- **Graphify optional:** if `graphify-out/GRAPH_REPORT.md` exists, read it in recon; never require Graphify.
+- **Graphify automatic detection:** check for presence of `app/graphify/` or `graphify-out/` upon starting work. If present, read `graphify-out/graph.json` and `graphify-out/GRAPH_REPORT.md` during Recon to leverage Graphify's knowledge graph for architectural analysis.
 - If the repo has no working verification command (no tests, broken build), record that — "establish a verification baseline" is often finding #1.
 
 ### Phase 2 — Audit
