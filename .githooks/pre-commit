@@ -1,26 +1,28 @@
 #!/usr/bin/env node
 
 const { execSync } = require('child_process');
-const path = require('path');
 
 try {
-   
-    const stagedFiles = execSync('git diff --cached --name-only', { encoding: 'utf8' })
+    // core.quotepath=false makes git emit raw UTF-8 paths instead of
+    // C-quoted escapes ("\"346..."), which would never match the allowlist.
+    // --diff-filter=d excludes staged DELETIONS: removing a stray/legacy file
+    // is cleanup, not a boundary violation — blocking it would make legacy
+    // clutter impossible to ever commit away.
+    const stagedFiles = execSync('git -c core.quotepath=false diff --cached --diff-filter=d --name-only', { encoding: 'utf8' })
         .split('\n')
         .map(f => f.trim())
         .filter(Boolean);
 
-   
-    const ALLOWED_DIRECTORIES = ['app', '.ai', '.roo', '.agents', 'tasks', 'tests', 'docs', '.githooks', 'bin'];
-    const ALLOWED_ROOT_FILES = ['README.md', 'skills-lock.json', '.roomodes', '.roorules', '.gitignore', 'package.json'];
+    // Git always reports paths with forward slashes, regardless of OS.
+    const ALLOWED_DIRECTORIES = ['app', '.ai', '.roo', '.agents', 'tasks', 'tests', 'docs', '.githooks', 'bin', 'plans', 'graphify-out', '.github'];
+    const ALLOWED_ROOT_FILES = ['README.md', 'LICENSE', 'skills-lock.json', '.roomodes', '.roorules', '.gitignore', 'package.json'];
 
     let violation = false;
 
     for (const file of stagedFiles) {
-        const parts = file.split(path.sep);
+        const parts = file.split('/');
         const topDir = parts[0];
 
-        
         if (parts.length === 1) {
             if (!ALLOWED_ROOT_FILES.includes(file)) {
                 console.error(`❌ Error: File "${file}" is not allowed in the root directory.`);
@@ -29,7 +31,6 @@ try {
             continue;
         }
 
-       
         if (!ALLOWED_DIRECTORIES.includes(topDir)) {
             console.error(`❌ Error: Directory "${topDir}/" is outside the project architecture blueprints.`);
             violation = true;
