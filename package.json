@@ -1,12 +1,20 @@
 {
   "name": "create-vibe-assembly",
-  "version": "1.0.10",
+  "version": "1.1.0",
   "description": "Vibe Assembly: multi-agent Roo Code workspace template for free-tier vibe coding.",
   "bin": {
-    "create-vibe-assembly": "bin/cli.js"
+    "create-vibe-assembly": "bin/cli.js",
+    "va": "bin/va.js"
   },
+  "files": [
+    "bin/",
+    "app/desktop/lib/",
+    "templates/",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
-    "test": "node --test tests/cli-identity.test.js tests/ticket-contract.test.js tests/cli-interactive.test.js"
+    "test": "node --test tests/cli-identity.test.js tests/ticket-contract.test.js tests/cli-interactive.test.js tests/pre-commit-hook.test.js tests/va-cli.test.js tests/templates.test.js tests/model-allocator.test.js"
   },
   "repository": {
     "type": "git",
@@ -21,5 +29,8 @@
     "vibe-assembly"
   ],
   "author": "Vibe Assembly",
+  "engines": {
+    "node": ">=18"
+  },
   "license": "MIT"
 }

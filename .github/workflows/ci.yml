@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run test suite
+        run: npm test
+      - name: Smoke-test CLI in a temp dir
+        shell: bash
+        run: |
+          TMPDIR=$(mktemp -d)
+          cd "$TMPDIR"
+          node "$GITHUB_WORKSPACE/bin/cli.js" --version
+          node "$GITHUB_WORKSPACE/bin/cli.js" </dev/null >/dev/null 2>&1 && exit 1 || true
+          node -e "const {isSafeProjectName} = require(process.env.GITHUB_WORKSPACE + '/bin/cli.js'); process.exit(isSafeProjectName('../evil') ? 1 : 0)"
+      - name: Pack tarball and verify installed binaries work
+        shell: bash
+        run: |
+          # Guards against packaging bugs (missing files whitelist entries):
+          # an installed va must find its parser dependency.
+          set -e
+          STAGE="$RUNNER_TEMP/packtest"
+          mkdir -p "$STAGE"
+          TARBALL="$(npm pack --silent)"
+          mv "$TARBALL" "$STAGE/pkg.tgz"
+          npm install --prefix "$STAGE/deps" --no-audit --no-fund --ignore-scripts "$STAGE/pkg.tgz"
+          PARSER="$STAGE/deps/node_modules/create-vibe-assembly/app/desktop/lib/parser.js"
+          test -f "$PARSER"
+          PARSER="$PARSER" node -e "
+            const p = require(process.env.PARSER);
+            const r = p.parseStateFile('# T\n- **Blockers:** None.\n');
+            if (r.fields.Blockers !== 'None.') process.exit(1);
+            console.log('installed parser OK');
+          "

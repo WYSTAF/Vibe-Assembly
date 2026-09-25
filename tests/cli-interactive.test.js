@@ -39,4 +39,34 @@ describe('cli interactive setup', () => {
   it('handles Python-not-found gracefully', () => {
     assert.ok(cliSrc.includes('Python not found'), 'must handle missing Python');
   });
+
+  it('defaults to No in non-TTY sessions instead of hanging', () => {
+    assert.match(cliSrc, /isTTY/, 'askGraphify must check process.stdin.isTTY');
+  });
+
+  it('rejects an existing target directory before cloning', () => {
+    assert.match(cliSrc, /already exists in this directory/);
+  });
+
+  it('supports --version', () => {
+    assert.ok(cliSrc.includes("'--version'"), 'must handle --version flag');
+  });
+
+  it('cleans up a partially created project on failure', () => {
+    assert.ok(cliSrc.includes('resetTemplateState'), 'must reset volatile .ai state');
+    assert.match(cliSrc, /Removing partially created project directory/);
+  });
+
+  it('neutralizes the template manifest in bootstrapped projects', () => {
+    assert.ok(cliSrc.includes('delete pkg.bin'), 'must remove bin to prevent accidental publish');
+    assert.ok(cliSrc.includes('pkg.private = true'), 'must mark user projects private');
+  });
+
+  it('supports --help', () => {
+    assert.ok(cliSrc.includes("'--help'"), 'must handle --help flag');
+  });
+
+  it('spawns npm with .cmd shim on Windows', () => {
+    assert.match(cliSrc, /npm\.cmd/, 'npm.cmd required for execFileSync on Windows');
+  });
 });

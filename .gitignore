@@ -17,3 +17,19 @@ app/website/node_modules/
 
 # Graphify reference copy (CLI clones fresh from GitHub)
 app/graphify/
+
+# Upstream opencode study fork (~2.9 GB, vendored, no .git of its own).
+# Reference-only: never part of the published template.
+app/opencode-dev/
+
+# Desktop app build outputs
+app/opencode-dev/**/out/
+app/opencode-dev/**/dist/
+app/opencode-dev/packages/desktop/resources/opencode-cli*
+app/opencode-dev/**/*.tsbuildinfo
+
+# Mission Control (Electron) install artifacts
+app/desktop/node_modules/
+
+# Scratch / local-only workspaces
+bun-test-q/

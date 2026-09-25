@@ -1,28 +1,46 @@
 # 📚 User Guide & Onboarding for Roo System
 
-## 1️⃣ Overview of the 4‑Mode Engine
-The Roo framework operates with four distinct modes, each with a clear responsibility:
+---
+
+## 0️⃣ Manual Setup (no CLI)
+
+Cloned from GitHub instead of using `npx create-vibe-assembly`? Three steps:
+
+1. Open the folder in your editor with Roo Code — it auto-detects `.roomodes` (the five modes) and `.roorules`.
+2. Optional tools:
+   - Mission Control dashboard: `cd app/desktop && npm install && npm start`
+   - `va` status CLI: `npm i -g create-vibe-assembly` (or just run `node bin/va.js`)
+3. Switch to 👑 Boss and describe your first feature.
+
+To start from a standard project template manually, copy `templates/<name>/app/` into your workspace `app/`, and `templates/<name>/.ai/*.md` over `.ai/`.
+
+
+## 1️⃣ Overview of the 5‑Mode Engine
+The Roo framework operates with five distinct modes, each with a clear responsibility:
 
 | Mode | Slug | Role |
 |------|------|------|
 | **👑 Boss** | `1-boss` | Project architect, state manager, and ticket creator. Does **not** edit production code.
 | **💬 Chat** | `2-chat` | Conversational assistant, brainstorming, idea validation. Provides English handoff prompts for Boss.
-| **💻 Code** | `3-code` | Senior developer that executes tickets from `.ai/active_task.md`. Edits only files listed in the ticket's `files_allowed`.
+| **💻 Code** | `3-code` | Senior developer that executes only the explicit Active Ticket in `.ai/active_task.md`. Edits only its `files_allowed` paths.
 | **🐞 Debug** | `4-debug` | Forensic investigator that fixes failing tests or runtime errors. Updates `.ai/known_bugs.md`.
+| **📣 Hermes** | `5-hermes` | Docs & Release Herald: READMEs, guides, changelogs, release notes from disk evidence. Documentation files only.
 
-The modes transition automatically via the `switch_mode` tool based on completion signals (see **Mode Transition Protocol** in each mode's `.roomodes` definition).
+Mode switching is user-driven: you select the next mode in Roo Code and paste the suggested phrase (e.g. *"Execute active task"*, *"Continue relay"*). Each mode's reply ends with a HUD footer naming the mode to switch to next. (An optional `switch_mode`-based variant lives in `docs/updated_roomodes_template.md`.)
 
 ---
 
-## 2️⃣ Recommended AI Models per Mode
-| Mode | Recommended Model | Reason |
-|------|------------------|--------|
-| **Boss** | `gpt‑4o` / `claude‑3.5‑sonnet` | Strong reasoning, planning, and long‑context handling for blueprint creation.
-| **Chat** | `gpt‑4o-mini` / `claude‑3‑haiku` | Fast, cost‑effective, good at conversational tone and quick suggestions.
-| **Code** | `gpt‑4o` / `claude‑3‑opus` | Excellent code generation, test writing, and diff creation.
-| **Debug** | `gpt‑4o` / `claude‑3‑sonnet` | Good at error analysis, stack‑trace interpretation, and precise patches.
+## 2️⃣ Choosing AI Models per Mode
+Any modern chat model works; Vibe Assembly is designed for **free/cheap API tiers**. Guidance:
 
-Feel free to adjust the model selection in the `.roomodes` file if your environment prefers a different provider.
+| Mode | What matters | Free-tier-friendly examples |
+|------|--------------|------------------------------|
+| **Boss** | Long context + solid reasoning for blueprints | Gemini Flash, DeepSeek V3, Kimi, Qwen |
+| **Chat** | Fast, cheap conversation | Any small/fast model |
+| **Code** | Precise diffing & instruction-following | Qwen Coder, DeepSeek, GLM |
+| **Debug** | Careful root-cause analysis | DeepSeek R-class, strong reasoning models |
+
+Record your provider choices in `.ai/model_strategy.md`. Adjust anytime in Roo Code's mode settings — no file editing required.
 
 ---
 
@@ -30,23 +48,32 @@ Feel free to adjust the model selection in the `.roomodes` file if your environm
 The **Scout** skill (`scout`) is an advisory tool that can:
 - Survey the codebase (default `app/` directory) and produce a prioritized plan.
 - Generate security, performance, or test‑coverage audit reports.
-- Output a `plans/` directory with self‑contained YAML/Markdown plans.
+- Output a `plans/` directory with self‑contained Markdown plans.
 
-**Typical usage:**
+**Typical usage (type these in Chat or Boss mode):**
 ```
-scout "audit performance"
-scout "security review"
+scout security
+scout tests
+scout quick
 ```
 The output can be fed to Boss mode to create tickets or to Code mode for implementation.
 
 ---
 
-## 4️⃣ Shortcuts & SOS Protocol
+## 4️⃣ Ticket Status & Resume Protocol
+
+`.ai/active_task.md` keeps all lightweight workflow state together:
+- **Queue:** the complete ordered task list, including completed and remaining tickets.
+- **Active Ticket:** the only ticket Code may execute; Code never chooses another Queue row implicitly.
+- **Status Snapshot:** the current ticket plus concise completed and remaining ticket lists.
+- **relay_notes:** durable step evidence. Resume at the first step without an exit-code-0 verification entry.
+
 | Shortcut | Action |
 |----------|--------|
-| `?` | When sent alone, the system reads `.ai/current_state.md` and `.ai/active_task.md` and replies with the exact next step and the required paste command.
-| `Execute active task` / `Continue relay` | Triggers the Code mode relay protocol to process the next ticket.
-| `Approve` / `Cancel` prompts (auto‑generated by mode handoff) | Used during mode transitions to confirm the switch.
+| `?` | Reads `.ai/current_state.md` and `.ai/active_task.md`, then reports the Active Ticket, resume step, and required paste command. |
+| `Execute active task` | Starts the pending Active Ticket. |
+| `Continue relay` | Resumes the in-progress Active Ticket from `relay_notes`. |
+| `Approve` / `Cancel` prompts (auto‑generated by mode handoff) | Used during mode transitions to confirm the switch. |
 
 **HUD Footer (auto‑added by each mode):**
 ```
@@ -61,8 +88,25 @@ The output can be fed to Boss mode to create tickets or to Code mode for impleme
 ## 5️⃣ How to Use This Guide
 1. **Ask Chat Mode** any question about the system – it will reference this guide.
 2. **When ready to build**, Chat will hand off a concise English prompt for Boss.
-3. **Boss** creates tickets in `.ai/active_task.md`.
-4. **Code** executes tickets, writing files only within the allowed list.
+3. **Boss** creates the full Queue and points one explicit Active Ticket in `.ai/active_task.md`.
+4. **Code** executes only that Active Ticket, writes only its allowed files, and records verified progress in `relay_notes`.
 5. **If errors occur**, Debug will intervene and then return to Code or Boss.
+
+---
+
+## 6️⃣ Model Combos & Auto-Allocation
+
+If your models come through an API router (OpenRouter, 9router, OmniRoute…), list them once in `.ai/model_combo.txt` (copy `.ai/model_combo.example.txt`), then:
+
+```
+va --models
+```
+
+The allocator reads `.ai/model_knowledge.json` (curated capability classes) and assigns each mode its best-fit model: reasoners go to 🐞 Debug, coders to 💻 Code, fast models to 💬 Chat. Add `boss = <model>` lines to lock specific modes. Mission Control shows the same table live in its MODEL ALLOCATION panel.
+
+## 7️⃣ Health Checks
+
+Run `va --doctor` anytime something feels off — it verifies state files exist, the ticket contract is consistent, placeholders are filled, and (if present) that your model combo covers all mode classes.
+
 
 Keep this file up‑to‑date as the system evolves.

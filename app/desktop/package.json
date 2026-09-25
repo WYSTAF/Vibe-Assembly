@@ -1,0 +1,14 @@
+{
+  "name": "vibe-assembly-mission-control",
+  "version": "1.0.0",
+  "description": "Mission Control dashboard for Vibe Assembly workspaces: live .ai/ ticket queue, active ticket, relay evidence, and copy-paste mode phrases.",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "start": "node start.js",
+    "test": "node --test test/parser.test.js"
+  },
+  "devDependencies": {
+    "electron": "^42"
+  }
+}
