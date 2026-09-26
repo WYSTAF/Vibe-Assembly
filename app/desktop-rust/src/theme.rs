@@ -2,7 +2,7 @@
 //! surface, hairline borders, one accent hue, and color reserved almost
 //! entirely for *status* so it always carries meaning.
 
-use gpui::{rgb, Rgba};
+use gpui::{hsla, rgb, Hsla, Rgba};
 
 pub fn surface_0() -> Rgba {
     // Window background — deepest layer.
@@ -77,14 +77,38 @@ pub fn ticket_status_color(status: &str) -> Rgba {
     }
 }
 
+/// Convert an opaque status color to Hsla at the given alpha. Rgba has no
+/// alpha helper in gpui 0.2.2, so washes go through Hsla.
+pub fn wash(color: Rgba, a: f32) -> Hsla {
+    let max = color.r.max(color.g).max(color.b);
+    let min = color.r.min(color.g).min(color.b);
+    let l = (max + min) / 2.0;
+    let d = max - min;
+    let s = if d == 0.0 {
+        0.0
+    } else {
+        d / (1.0 - (2.0 * l - 1.0).abs())
+    };
+    let h = if d == 0.0 {
+        0.0
+    } else if max == color.r {
+        ((color.g - color.b) / d).rem_euclid(6.0) / 6.0
+    } else if max == color.g {
+        ((color.b - color.r) / d + 2.0) / 6.0
+    } else {
+        ((color.r - color.g) / d + 4.0) / 6.0
+    };
+    hsla(h, s, l, a)
+}
+
 /// A faint wash of the status color, for row backgrounds.
-pub fn status_wash(status: &str) -> Rgba {
-    ticket_status_color(status).opacity(0.14)
+pub fn status_wash(status: &str) -> Hsla {
+    wash(ticket_status_color(status), 0.14)
 }
 
 /// A fainter wash, for panel headers and inline chips.
-pub fn status_wash_faint(status: &str) -> Rgba {
-    ticket_status_color(status).opacity(0.10)
+pub fn status_wash_faint(status: &str) -> Hsla {
+    wash(ticket_status_color(status), 0.10)
 }
 
 pub const MONO: &str = "JetBrains Mono";

@@ -10,7 +10,7 @@
 
 use gpui::prelude::*;
 use gpui::{
-    div, px, rgb, App, Application, Bounds, Context, FontWeight, Hsla, SharedString, Window,
+    div, px, rgb, size, App, Application, Bounds, Context, Div, FontWeight, Window,
     WindowBounds, WindowOptions,
 };
 
@@ -27,7 +27,7 @@ pub struct MissionControl {
 // ---------------------------------------------------------------- primitives
 
 /// A panel: hairline-bordered, on the raised surface.
-fn panel(title: &str, count: Option<String>) -> impl IntoElement {
+fn panel(title: &str, count: Option<String>) -> Div {
     div()
         .flex()
         .flex_col()
@@ -35,7 +35,6 @@ fn panel(title: &str, count: Option<String>) -> impl IntoElement {
         .border_1()
         .border_color(border())
         .rounded(px(6.0))
-        .overflow_hidden()
         .child(
             div()
                 .flex()
@@ -43,12 +42,13 @@ fn panel(title: &str, count: Option<String>) -> impl IntoElement {
                 .justify_between()
                 .px_3()
                 .py_2()
+                .rounded_t(px(6.0))
                 .border_b_1()
                 .border_color(border())
                 .child(
                     div()
                         .text_xs()
-                        .font_weight(FontWeight::Semibold)
+                        .font_weight(FontWeight::SEMIBOLD)
                         .text_color(text_secondary())
                         .child(title.to_uppercase().to_string()),
                 )
@@ -92,9 +92,9 @@ fn chip(text: &str, color: gpui::Rgba) -> impl IntoElement {
         .px_2()
         .py(px(2.0))
         .rounded(px(4.0))
-        .bg(color.opacity(0.15))
+        .bg(wash(color, 0.15))
         .text_xs()
-        .font_weight(FontWeight::Semibold)
+        .font_weight(FontWeight::SEMIBOLD)
         .text_color(color)
         .child(text.to_string())
 }
@@ -166,14 +166,14 @@ fn next_action(ws: &Workspace, copy_phrase: Option<&str>) -> impl IntoElement {
         .child(
             div()
                 .text_xs()
-                .font_weight(FontWeight::Bold)
+                .font_weight(FontWeight::BOLD)
                 .text_color(color)
                 .child("NEXT ACTION"),
         )
         .child(
             div()
                 .text_xl()
-                .font_weight(FontWeight::Semibold)
+                .font_weight(FontWeight::SEMIBOLD)
                 .text_color(text_primary())
                 .child(headline),
         )
@@ -294,7 +294,7 @@ fn ticket_panel(ws: &Workspace, selected: Option<i64>) -> impl IntoElement {
                 .child(
                     div()
                         .text_sm()
-                        .font_weight(FontWeight::Semibold)
+                        .font_weight(FontWeight::SEMIBOLD)
                         .text_color(text_primary())
                         .child(ticket.title.clone()),
                 )
@@ -332,16 +332,16 @@ fn step_row(step: &Step, verified: bool, selected: bool) -> impl IntoElement {
         .border_b_1()
         .border_color(border())
         .bg(if selected {
-            surface_2().into()
+            wash(surface_2(), 1.0)
         } else {
-            rgb(0x000000).opacity(0.0).into()
+            wash(rgb(0x000000), 0.0)
         })
         .child(
             div()
                 .w(px(16.0))
                 .flex_shrink_0()
                 .text_xs()
-                .font_weight(FontWeight::Bold)
+                .font_weight(FontWeight::BOLD)
                 .text_color(color)
                 .child(if verified { "\u{2713}" } else { "\u{25cb}" }),
         )
@@ -354,9 +354,9 @@ fn step_row(step: &Step, verified: bool, selected: bool) -> impl IntoElement {
                     div()
                         .text_xs()
                         .text_color(if verified {
-                            text_secondary().opacity(0.8)
+                            wash(text_secondary(), 0.8)
                         } else {
-                            text_primary()
+                            wash(text_primary(), 1.0)
                         })
                         .child(step.text.clone()),
                 )
@@ -430,7 +430,7 @@ fn bugs_panel(ws: &Workspace) -> impl IntoElement {
                 .child(
                     div()
                         .text_xs()
-                        .font_weight(FontWeight::Semibold)
+                        .font_weight(FontWeight::SEMIBOLD)
                         .text_color(text_primary())
                         .child(headline),
                 )
@@ -439,7 +439,7 @@ fn bugs_panel(ws: &Workspace) -> impl IntoElement {
                         div()
                             .text_xs()
                             .text_color(text_secondary())
-                            .child(truncate(&body, 220)),
+                            .child(truncate(&body, 150)),
                     )
                 })
         })),
@@ -546,7 +546,7 @@ impl Render for MissionControl {
                         .child(
                             div()
                                 .text_sm()
-                                .font_weight(FontWeight::Bold)
+                                .font_weight(FontWeight::BOLD)
                                 .text_color(status_error())
                                 .child("No Vibe Assembly workspace found"),
                         )
@@ -583,7 +583,7 @@ impl Render for MissionControl {
                         .child(
                             div()
                                 .text_sm()
-                                .font_weight(FontWeight::Semibold)
+                                .font_weight(FontWeight::SEMIBOLD)
                                 .text_color(text_primary())
                                 .child("MISSION CONTROL"),
                         )
@@ -619,6 +619,7 @@ impl Render for MissionControl {
                         .flex_row()
                         .gap_3()
                         .p_3()
+                        .id("body-scroll")
                         .overflow_scroll()
                         .child(
                             div()
@@ -645,12 +646,8 @@ impl Render for MissionControl {
                 )
         };
 
-        body.on_key_down(cx, |_, e, _| {
-            if e.key_string == "r" {
-                return Some(gpui::KeyDownEvent::default());
-            }
-            None
-        })
+        let _ = cx;
+        body
     }
 }
 

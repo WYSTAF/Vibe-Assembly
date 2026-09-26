@@ -24,16 +24,18 @@ stack without the editor.
 GPUI pulls ~700 transitive crates; the first build takes a while.
 
 ```bash
-cargo build --release
-cargo test
+cargo test          # parser + state tests
+cargo build         # debug — see the note below
+cargo run           # launch on the current workspace
 ```
 
-On Windows, `rustc` can exhaust the thread stack compiling a few heavy crates.
-If the build dies with `STATUS_STACK_BUFFER_OVERRUN`, set a larger stack:
-
-```bash
-RUST_MIN_STACK=33554432 cargo build --release
-```
+**Build in debug, not release.** On Windows, `rustc` aborts with
+`STATUS_STACK_BUFFER_OVERRUN` while compiling a few of gpui's heavier
+dependencies (`ash`, `rustls`) in release mode — it exhausts the stack during
+code generation at `opt-level=2`. This is a codegen stack limit, not a thread
+stack, so `RUST_MIN_STACK` alone does not reliably fix it. A debug build uses
+far less codegen stack and compiles cleanly. If you must build release, try
+`RUST_MIN_STACK=134217728` and reduce `[profile.release] opt-level` to 0.
 
 ## Run
 
