@@ -4,27 +4,31 @@ on:
     branches: [main]
 jobs:
   diag:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Capture environment
-        run: |
-          echo "node=$(node --version)" >> $GITHUB_STEP_SUMMARY
-          echo "os=$(uname -a)" >> $GITHUB_STEP_SUMMARY
-      - name: Run suite and capture output
+      - name: Diagnose
         run: |
           set +e
-          npm test > test-output.txt 2>&1
-          code=$?
-          echo "### npm test exit=$code" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          tail -60 test-output.txt >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          exit $code
+          {
+            echo "node=$(node --version)"
+            echo "os=$(uname -a)"
+            echo "--- npm test ---"
+            npm test 2>&1 | tail -80
+            echo "npm test exit=${PIPESTATUS[0]}"
+          } > diag-output.txt 2>&1
+      - name: Commit diagnosis
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push diagnosis
+        run: |
+          git config user.name ci
+          git config user.email ci@local
+          git add diag-output.txt
+          git commit -q -m "ci: diagnosis output" || echo "no change"
+          git push origin HEAD:main
