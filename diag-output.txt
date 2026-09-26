@@ -1,0 +1,102 @@
+node=v20.20.2
+--- npm test ---
+  ...
+# Subtest: ticket_contract.md
+    # Subtest: exists and is non-empty
+    ok 1 - exists and is non-empty
+      ---
+      duration_ms: 1.286655
+      ...
+    # Subtest: contains required schema fields
+    ok 2 - contains required schema fields
+      ---
+      duration_ms: 0.207001
+      ...
+    # Subtest: contains relay paste phrases
+    ok 3 - contains relay paste phrases
+      ---
+      duration_ms: 0.135658
+      ...
+    # Subtest: contains a sample ticket with T- pattern
+    ok 4 - contains a sample ticket with T- pattern
+      ---
+      duration_ms: 0.131883
+      ...
+    # Subtest: defines exactly one explicit Active Ticket in the canonical skeleton
+    ok 5 - defines exactly one explicit Active Ticket in the canonical skeleton
+      ---
+      duration_ms: 0.541293
+      ...
+    # Subtest: requires synchronized state and fail-closed conflicts
+    ok 6 - requires synchronized state and fail-closed conflicts
+      ---
+      duration_ms: 0.176871
+      ...
+    # Subtest: requires complete durable relay evidence
+    ok 7 - requires complete durable relay evidence
+      ---
+      duration_ms: 0.314856
+      ...
+    # Subtest: does not contain shadcn/improve branding
+    ok 8 - does not contain shadcn/improve branding
+      ---
+      duration_ms: 0.224578
+      ...
+    # Subtest: defines the completion gate (done requires full evidence + consistency)
+    ok 9 - defines the completion gate (done requires full evidence + consistency)
+      ---
+      duration_ms: 0.270101
+      ...
+    1..9
+ok 10 - ticket_contract.md
+  ---
+  duration_ms: 5.250671
+  type: 'suite'
+  ...
+# ❌ No .ai/ directory found at or above /tmp/va-empty-my5VNB. Not a Vibe Assembly workspace?
+# Subtest: va CLI
+    # Subtest: errors cleanly outside a workspace
+    ok 1 - errors cleanly outside a workspace
+      ---
+      duration_ms: 40.55642
+      ...
+    # Subtest: shows the queue and exit-codes 2 on contract violations
+    ok 2 - shows the queue and exit-codes 2 on contract violations
+      ---
+      duration_ms: 42.055321
+      ...
+    # Subtest: suggests Execute active task for a pending ticket
+    ok 3 - suggests Execute active task for a pending ticket
+      ---
+      duration_ms: 36.782791
+      ...
+    # Subtest: --doctor reports healthy on a complete workspace
+    ok 4 - --doctor reports healthy on a complete workspace
+      ---
+      duration_ms: 32.021157
+      ...
+    # Subtest: --models allocates and handles inline comments
+    ok 5 - --models allocates and handles inline comments
+      ---
+      duration_ms: 32.56891
+      ...
+    # Subtest: --json emits parseable machine-readable status
+    ok 6 - --json emits parseable machine-readable status
+      ---
+      duration_ms: 28.436455
+      ...
+    1..6
+ok 11 - va CLI
+  ---
+  duration_ms: 214.216837
+  type: 'suite'
+  ...
+1..11
+# tests 68
+# suites 11
+# pass 67
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 438.149605
