@@ -31,5 +31,8 @@ app/opencode-dev/**/*.tsbuildinfo
 # Mission Control (Electron) install artifacts
 app/desktop/node_modules/
 
+# Mission Control (native, Rust) build artifacts
+app/desktop-rust/target/
+
 # Scratch / local-only workspaces
 bun-test-q/
