@@ -21,11 +21,15 @@ jobs:
           set +e
           {
             echo "node=$(node --version)"
-            echo "--- npm test ---"
-            npm test 2>&1 | tail -100
+            npm test > full-test.txt 2>&1
+            echo "exit=$?"
+            echo "=== FAILING TESTS ==="
+            grep -nE "not ok" full-test.txt
+            echo "=== FAILURE DETAIL (context) ==="
+            grep -nE "not ok" full-test.txt | cut -d: -f1 | while read n; do
+              sed -n "$((n>3?n-3:1)),$((n+30))p" full-test.txt
+            done
           } > diag-output.txt 2>&1
-          echo "--- captured ---"
-          cat diag-output.txt
       - name: Push diagnosis
         run: |
           git config user.name ci
