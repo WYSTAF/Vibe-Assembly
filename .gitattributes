@@ -1,0 +1,17 @@
+# Normalize line endings on checkin so the repo behaves identically on
+# Windows, macOS, and Linux. Without this, a Windows checkout rewrites
+# LF -> CRLF and the pre-commit hook's own shebang line gains a trailing \r.
+
+* text=auto eol=lf
+
+# Scripts and hooks must stay LF even on Windows: the kernel shebang parser
+# does not tolerate a CRLF line ending, and git runs this hook directly.
+*.sh   text eol=lf
+.githooks/* text eol=lf
+
+# Generated binaries are not text.
+*.exe  binary
+*.ico  binary
+*.png  binary
+*.jpg  binary
+*.woff2 binary
