@@ -14,7 +14,7 @@
     "README.md"
   ],
   "scripts": {
-    "test": "node --test tests/cli-identity.test.js tests/ticket-contract.test.js tests/cli-interactive.test.js tests/pre-commit-hook.test.js tests/va-cli.test.js tests/templates.test.js tests/model-allocator.test.js"
+    "test": "node --test tests/cli-identity.test.js tests/ticket-contract.test.js tests/cli-interactive.test.js tests/pre-commit-hook.test.js tests/va-cli.test.js tests/templates.test.js tests/model-allocator.test.js tests/parser-parity.test.js"
   },
   "repository": {
     "type": "git",
