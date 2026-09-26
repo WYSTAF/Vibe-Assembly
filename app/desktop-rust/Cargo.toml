@@ -1,0 +1,21 @@
+[package]
+name = "vibe-assembly-control"
+version = "1.2.0"
+edition = "2021"
+description = "Mission Control — a native desktop dashboard for Vibe Assembly .ai/ state"
+
+[lib]
+name = "vibe_assembly_control"
+path = "src/lib.rs"
+
+[[bin]]
+name = "va-control"
+path = "src/main.rs"
+
+[dependencies]
+gpui = "0.2.2"
+
+[profile.release]
+opt-level = 2
+lto = false
+codegen-units = 16
