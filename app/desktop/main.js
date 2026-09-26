@@ -13,7 +13,12 @@ function modelAllocation() {
   try {
     const comboPath = aiPath('model_combo.txt');
     if (!fs.existsSync(comboPath)) return null;
-    const allocator = require(path.join(__dirname, '..', '..', 'bin', 'allocate-models'));
+    // Packaged builds ship a vendored copy (bin/ is outside the app folder, so
+    // electron-builder can't follow it); dev runs read the source of truth.
+    const vendored = path.join(__dirname, 'vendor', 'allocate-models');
+    const allocator = require(fs.existsSync(vendored)
+      ? vendored
+      : path.join(__dirname, '..', '..', 'bin', 'allocate-models'));
     const comboText = fs.readFileSync(comboPath, 'utf8');
     const combo = [];
     const locked = {};

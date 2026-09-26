@@ -6,9 +6,36 @@
   "main": "main.js",
   "scripts": {
     "start": "node start.js",
-    "test": "node --test test/parser.test.js"
+    "test": "node --test test/parser.test.js",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --win"
+  },
+  "build": {
+    "appId": "com.vibeassembly.missioncontrol",
+    "productName": "Mission Control",
+    "directories": {
+      "output": "dist-exe"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "lib/**/*",
+      "assets/**/*",
+      "renderer/**/*",
+      "vendor/allocate-models.js"
+    ],
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "portable": {
+      "artifactName": "MissionControl-${version}-portable.exe"
+    }
   },
   "devDependencies": {
-    "electron": "^42"
+    "electron": "^42",
+    "electron-builder": "^26.15.3"
   }
 }
