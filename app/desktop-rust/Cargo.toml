@@ -13,9 +13,15 @@ name = "va-control"
 path = "src/main.rs"
 
 [dependencies]
-gpui = "0.2.2"
+# default-features = false drops `wayland` and `x11`, which are Linux-only and
+# are the main reason gpui's dependency graph is large enough to overflow the
+# Windows compiler stack. Windows needs no features: windowing is Win32 and
+# text is DirectWrite.
+gpui = { version = "0.2.2", default-features = false, features = ["windows-manifest"] }
 
 [profile.release]
-opt-level = 2
+# opt-level 0 keeps codegen stack use low enough that rustc does not abort
+# with STATUS_STACK_BUFFER_OVERRUN on Windows (see README).
+opt-level = 0
 lto = false
 codegen-units = 16

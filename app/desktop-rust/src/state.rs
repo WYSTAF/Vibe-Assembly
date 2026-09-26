@@ -94,10 +94,13 @@ impl Workspace {
         }
     }
 
+    /// Real blockers only. The template writes `None.` with a trailing period,
+    /// so compare against the trimmed, punctuation-stripped value.
     pub fn blockers(&self) -> Option<&str> {
-        self.state_file
-            .get("Blockers")
-            .filter(|b| !b.eq_ignore_ascii_case("none") && !b.is_empty())
+        self.state_file.get("Blockers").filter(|b| {
+            let v = b.trim().trim_end_matches(['.', '!']).trim();
+            !v.is_empty() && !v.eq_ignore_ascii_case("none") && !v.eq_ignore_ascii_case("n/a")
+        })
     }
 
     pub fn milestone(&self) -> Option<&str> {

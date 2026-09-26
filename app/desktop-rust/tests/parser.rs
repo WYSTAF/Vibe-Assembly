@@ -227,3 +227,39 @@ fn state_file_keeps_duplicate_keys() {
     assert_eq!(s.all("Date"), vec!["one", "two"]);
     assert_eq!(s.get("Blockers"), Some("None."));
 }
+
+/// The template writes `None.` with a trailing period. Treating that as a real
+/// blocker made the dashboard headline read BLOCKED on a healthy workspace.
+#[test]
+fn none_with_a_period_is_not_a_blocker() {
+    use vibe_assembly_control::state::Workspace;
+    let dir = std::env::temp_dir().join("va-blockers-test");
+    let ai = dir.join(".ai");
+    std::fs::create_dir_all(&ai).unwrap();
+    std::fs::write(
+        ai.join("current_state.md"),
+        "# Current Operational State\n- **Blockers:** None.\n",
+    )
+    .unwrap();
+    std::fs::write(ai.join("active_task.md"), QUIESCENT).unwrap();
+    let ws = Workspace::load(&dir);
+    assert_eq!(ws.blockers(), None, "`None.` must not read as a blocker");
+    std::fs::remove_dir_all(&dir).ok();
+}
+
+#[test]
+fn a_real_blocker_is_reported() {
+    use vibe_assembly_control::state::Workspace;
+    let dir = std::env::temp_dir().join("va-blockers-real");
+    let ai = dir.join(".ai");
+    std::fs::create_dir_all(&ai).unwrap();
+    std::fs::write(
+        ai.join("current_state.md"),
+        "# S\n- **Blockers:** KB-002 unresolved.\n",
+    )
+    .unwrap();
+    std::fs::write(ai.join("active_task.md"), QUIESCENT).unwrap();
+    let ws = Workspace::load(&dir);
+    assert_eq!(ws.blockers(), Some("KB-002 unresolved."));
+    std::fs::remove_dir_all(&dir).ok();
+}
