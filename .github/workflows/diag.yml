@@ -1,0 +1,29 @@
+name: DIAG
+on:
+  workflow_dispatch:
+jobs:
+  diag:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Capture environment
+        run: |
+          echo "node=$(node --version)" >> $GITHUB_STEP_SUMMARY
+          echo "os=$(uname -a)" >> $GITHUB_STEP_SUMMARY
+      - name: Run suite and capture output
+        run: |
+          set +e
+          npm test > test-output.txt 2>&1
+          code=$?
+          echo "### npm test exit=$code" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          tail -60 test-output.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          exit $code
