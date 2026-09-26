@@ -48,6 +48,12 @@ describe('.githooks/pre-commit', () => {
   before(() => {
     repo = fs.mkdtempSync(path.join(os.tmpdir(), 'va-hook-'));
     git(repo, 'init', '-q');
+    // The deletion test below runs a real `git commit`, which needs an identity.
+    // CI runners have no global user.name/user.email, so without this the suite
+    // fails there with "Please tell me who you are" while passing locally.
+    // Set it repo-locally so the test never depends on ambient git config.
+    git(repo, 'config', 'user.email', 'test@example.invalid');
+    git(repo, 'config', 'user.name', 'Vibe Assembly Test');
   });
 
   after(() => {
