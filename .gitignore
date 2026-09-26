@@ -36,3 +36,4 @@ app/desktop-rust/target/
 
 # Scratch / local-only workspaces
 bun-test-q/
+diag-output.txt
