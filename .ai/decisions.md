@@ -59,3 +59,11 @@
 - **Decision:** Users declare their combo in .ai/model_combo.txt (+ optional per-mode locks). A curated knowledge base (.ai/model_knowledge.json) classifies models into stable capability CLASSES rather than volatile benchmark scores; a two-pass allocator assigns classes to modes honoring primary needs before fallbacks. Surfaced via `va --models`. Knowledge file is data — refreshable without code changes; sources listed inside.
 - **Boundary:** Allocator recommends; it never mutates router configs or Roo settings itself. Publishing is human-applied.
 - **Consequence:** Beginners get expert-level model routing; allocation logic pinned by behavioral tests including the scarcity rule and lock precedence.
+
+## [ADR-013] Native Mission Control on GPUI
+- **Date:** 2026-09-27
+- **Status:** Implemented; replaces the Electron dashboard for day-to-day use
+- **Context:** The Electron Mission Control UI was dense, low-signal, and in two places simply wrong: `renderBugs` rendered one bug's field labels as if they were six separate bugs, and `decisions_head` was fetched but never rendered. It also never surfaced the resume point — the single most decision-relevant value in the dataset.
+- **Decision:** Rebuild the dashboard as a native Rust app on `gpui` 0.2.2 from crates.io. Forking Zed was rejected: its extension API has no custom-UI hook and cannot register a plain command, and a fork would inherit ~250 crates of editor, LSP, collab, and telemetry to render a read-only status view. The parser is ported literally rather than rewritten, so the native app and the `va` CLI can never disagree about workspace state; `tests/parser-parity.test.js` enforces that from the JS side.
+- **Boundary:** Dashboard only. The `va` CLI, bootstrap, and model allocator stay JavaScript. The `.ai/` contract and mode architecture are untouched — this app observes them, it does not define them.
+- **Consequence:** Render priority is explicit: answer "what do I do next" within five seconds, make contract violations unmissable, and let every other panel earn its space. Two bugs in the port were caught by tests before first run (Verify-command extraction, files_allowed scope). On Windows, cargo needs `ulimit -s unlimited` before building or rustc aborts with STATUS_STACK_BUFFER_OVERRUN; see app/desktop-rust/README.md.
